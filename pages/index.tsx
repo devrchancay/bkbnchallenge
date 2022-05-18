@@ -44,20 +44,28 @@ function Home() {
                   <Typography>{contact.email}</Typography>
                   <Typography>{contact.phone}</Typography>
                 </Stack>
-                <Stack
-                  direction={["column", "row"]}
-                  spacing={[1, 2]}
-                  pt={[0, 2]}
-                >
-                  <Button
-                    variant="outlined"
-                    onClick={() => {
-                      router.push(`/contact/${contact.id}`);
-                    }}
-                  >
-                    Editar
-                  </Button>
-                  <Button>Eliminar</Button>
+                <Stack direction="row" justifyContent="space-between" py={1}>
+                  <Box>
+                    <Button
+                      variant="contained"
+                      onClick={() => {
+                        router.push(`/contact/${contact.id}`);
+                      }}
+                    >
+                      Editar
+                    </Button>
+                  </Box>
+                  <Box>
+                    <Button
+                      variant="outlined"
+                      color="error"
+                      onClick={() => {
+                        router.push(`/contact/delete/${contact.id}`);
+                      }}
+                    >
+                      Eliminar
+                    </Button>
+                  </Box>
                 </Stack>
               </Stack>
             );
