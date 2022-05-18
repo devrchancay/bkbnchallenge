@@ -7,11 +7,19 @@ function Delete() {
   const route = useRouter();
   const id = route.query.id as string;
 
-  const { data, isLoading } = useGetContactQuery({ id });
+  const { data, isLoading, isError } = useGetContactQuery({ id });
   const [deletePost, { isLoading: isDeleting }] = useDeleteContactMutation();
 
   if (isLoading) {
     return null;
+  }
+
+  if (isError) {
+    return (
+      <Container maxWidth="sm">
+        <Typography>Contacto no encontrado</Typography>
+      </Container>
+    );
   }
 
   return (

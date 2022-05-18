@@ -13,7 +13,7 @@ var __assign = (this && this.__assign) || function () {
 exports.__esModule = true;
 var faker_1 = require("@faker-js/faker");
 var axios_1 = require("axios");
-var user = Array.from({ length: 100 })
+var user = Array.from({ length: 30 })
     .fill(null)
     .map(function () { return ({
     firstName: faker_1.faker.name.firstName(),

@@ -1,7 +1,7 @@
 import { faker } from "@faker-js/faker";
 import axios from "axios";
 
-const user = Array.from({ length: 100 })
+const user = Array.from({ length: 30 })
   .fill(null)
   .map(() => ({
     firstName: faker.name.firstName(),

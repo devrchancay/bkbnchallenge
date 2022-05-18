@@ -4,7 +4,10 @@ import {
   TextField,
   Alert,
   CircularProgress,
+  Typography,
 } from "@mui/material";
+import { useRouter } from "next/router";
+
 import { useForm, Controller } from "react-hook-form";
 import {
   useAddContactMutation,
@@ -20,19 +23,37 @@ function ContactForm({
   id = "",
   action = FormAction.Add,
 }) {
+  const router = useRouter();
   const {
     handleSubmit,
     control,
     formState: { errors },
   } = useForm();
-  const [updateContact, { isLoading: isUpdating, isSuccess: isUpdated }] =
-    useUpdateContactMutation();
+  const [
+    updateContact,
+    {
+      isLoading: isUpdating,
+      isSuccess: isUpdated,
+      isError: isUpdateError,
+      error,
+    },
+  ] = useUpdateContactMutation();
 
-  const [createContact, { isLoading: isCreating, isSuccess: isCreated }] =
-    useAddContactMutation();
+  const [
+    createContact,
+    {
+      isLoading: isCreating,
+      isSuccess: isCreated,
+      isError: isCreatedError,
+      error: createErrors,
+    },
+  ] = useAddContactMutation();
 
   const formEdit = action === FormAction.Edit;
   const formAdd = action === FormAction.Add;
+
+  const updateError: any = error;
+  const createError: any = createErrors;
 
   const onSubmit = (data) => {
     if (formAdd) {
@@ -127,11 +148,49 @@ function ContactForm({
             />
           )}
         />
+        {isUpdateError && (
+          <Stack spacing={2} mt={2}>
+            <Alert severity="error">
+              {updateError?.data?.data?.errors &&
+                Object.values(updateError?.data?.data?.errors).map((error) => (
+                  <Typography>{`${error}`}</Typography>
+                ))}
+            </Alert>
+          </Stack>
+        )}
+
+        {isCreatedError && (
+          <Stack spacing={2} mt={2}>
+            <Alert severity="error">
+              {createError?.data?.data?.errors &&
+                Object.values(createError?.data?.data?.errors).map((error) => (
+                  <Typography>{`${error}`}</Typography>
+                ))}
+            </Alert>
+          </Stack>
+        )}
+
+        {isCreated && (
+          <Stack spacing={2} mt={2}>
+            <Alert severity="success">Contacto agregado correctamente</Alert>
+          </Stack>
+        )}
 
         <Button type="submit" variant="outlined" disabled={isUpdating}>
           {label}
           {isLoading && <CircularProgress size={20} />}
         </Button>
+        {isCreated && (
+          <Stack mt={2}>
+            <Button
+              onClick={() => {
+                router.push("/");
+              }}
+            >
+              Volver
+            </Button>
+          </Stack>
+        )}
       </Stack>
     </form>
   );

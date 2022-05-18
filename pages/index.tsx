@@ -27,11 +27,21 @@ function Home() {
   };
 
   if (isLoading) {
-    return Array.from({ length: 10 }).map((_, i) => (
-      <Stack key={i} my={2} justifyContent="center" alignItems="center" px={3}>
-        <Skeleton variant="rectangular" width="100%" height={118} />
-      </Stack>
-    ));
+    return (
+      <Container maxWidth="sm">
+        {Array.from({ length: 10 }).map((_, i) => (
+          <Stack
+            key={i}
+            my={2}
+            justifyContent="center"
+            alignItems="center"
+            px={3}
+          >
+            <Skeleton variant="rectangular" width="100%" height={118} />
+          </Stack>
+        ))}
+      </Container>
+    );
   }
 
   return (
@@ -79,13 +89,15 @@ function Home() {
               </Stack>
             );
           })}
-          <Stack py={3} spacing={4}>
-            <Pagination
-              count={data.totalPages}
-              onChange={handleChange}
-              size="large"
-            />
-          </Stack>
+          {data.totalPages > 1 && (
+            <Stack py={3} spacing={4}>
+              <Pagination
+                count={data.totalPages}
+                onChange={handleChange}
+                size="large"
+              />
+            </Stack>
+          )}
         </Stack>
       </Container>
     </div>
