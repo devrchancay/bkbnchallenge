@@ -3,8 +3,8 @@ import {
   Button,
   Container,
   Divider,
+  Pagination,
   Skeleton,
-  Stack,
   Typography,
 } from "@mui/material";
 import Head from "next/head";
@@ -12,10 +12,19 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { useGetContactsQuery } from "services/contact";
 
+import Stack from "@mui/material/Stack";
+
 function Home() {
-  const [page] = useState(1);
-  const { data, isLoading } = useGetContactsQuery({ page });
   const router = useRouter();
+  const currentPage = parseInt(router.query.page as string, 10) || 1;
+
+  const [page, setPage] = useState(1);
+  const { data, isLoading } = useGetContactsQuery({ page: currentPage });
+
+  const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
+    router.push(`/?page=${value}`, undefined, { shallow: true });
+    setPage(value);
+  };
 
   if (isLoading) {
     return Array.from({ length: 10 }).map((_, i) => (
@@ -70,6 +79,13 @@ function Home() {
               </Stack>
             );
           })}
+          <Stack py={3} spacing={4}>
+            <Pagination
+              count={data.totalPages}
+              onChange={handleChange}
+              size="large"
+            />
+          </Stack>
         </Stack>
       </Container>
     </div>

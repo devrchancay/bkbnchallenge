@@ -12,5 +12,6 @@ export interface IContact {
 }
 
 export interface IContacts {
+  totalPages: number;
   results: IContact[];
 }

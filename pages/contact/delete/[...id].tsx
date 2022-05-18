@@ -37,7 +37,7 @@ function Delete() {
             <Button
               variant="text"
               onClick={() => {
-                route.push("/");
+                route.back();
               }}
             >
               Cancelar
