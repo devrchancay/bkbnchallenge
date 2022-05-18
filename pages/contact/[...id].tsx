@@ -1,4 +1,4 @@
-import { Skeleton, Stack } from "@mui/material";
+import { Skeleton, Stack, Typography } from "@mui/material";
 import { Container } from "@mui/system";
 import ContactForm from "forms/contact";
 import { useRouter } from "next/router";
@@ -9,7 +9,7 @@ function Contact() {
   const router = useRouter();
   const id = router.query.id as string;
 
-  const { data, isLoading } = useGetContactQuery({ id });
+  const { data, isLoading, isError } = useGetContactQuery({ id });
 
   if (isLoading) {
     return (
@@ -20,6 +20,14 @@ function Contact() {
           <Skeleton height={40} width="100%" />
           <Skeleton height={40} width="100%" />
         </Stack>
+      </Container>
+    );
+  }
+
+  if (isError) {
+    return (
+      <Container maxWidth="sm">
+        <Typography textAlign="center">Contacto no encontrado</Typography>
       </Container>
     );
   }
