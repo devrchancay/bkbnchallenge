@@ -38,6 +38,7 @@ export const AppApi = createApi({
         method: "POST",
         body: contact,
       }),
+      invalidatesTags: ["Contacts"],
     }),
   }),
 });
