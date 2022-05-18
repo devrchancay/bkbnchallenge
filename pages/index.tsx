@@ -8,12 +8,14 @@ import {
   Typography,
 } from "@mui/material";
 import Head from "next/head";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { useGetContactsQuery } from "services/contact";
 
 function Home() {
   const [page] = useState(1);
   const { data, isLoading } = useGetContactsQuery({ page });
+  const router = useRouter();
 
   if (isLoading) {
     return Array.from({ length: 10 }).map((_, i) => (
@@ -47,7 +49,14 @@ function Home() {
                   spacing={[1, 2]}
                   pt={[0, 2]}
                 >
-                  <Button variant="outlined">editar</Button>
+                  <Button
+                    variant="outlined"
+                    onClick={() => {
+                      router.push(`/contact/${contact.id}`);
+                    }}
+                  >
+                    Editar
+                  </Button>
                   <Button>Eliminar</Button>
                 </Stack>
               </Stack>
